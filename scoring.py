@@ -14,7 +14,7 @@ class ScoreBoard:
     def sync(self):
         self.logger.debug("Syncing database")
         with open(os.path.join(self.dataDir, "scores.json"), 'w') as f:
-            json.dump(self.scores, f)
+            json.dump(self.scores, f, sort_keys=True, indent=2, separators=(',',':'))
 
     def solve(self, team, problem, points):
         if not team in self.scores:

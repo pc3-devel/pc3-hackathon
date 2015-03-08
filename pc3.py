@@ -1,6 +1,6 @@
 from flask import Flask, request, session
 from werkzeug import secure_filename
-import util, os, logging, random
+import util, os, logging, random, json
 
 dataDir = "data"
 
@@ -40,6 +40,10 @@ def compete(team, problem, lang):
         file.save(os.path.join(util.makeRun(team, problem), filename))
         runStatus = util.doRun(team, problem, lang, filename)
         return str(runStatus)
+
+@app.route("/scores")
+def scores():
+    return json.dumps(util.scoreboard.getRanks())
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
