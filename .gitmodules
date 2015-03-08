@@ -1,0 +1,3 @@
+[submodule "clients/rust_client"]
+	path = clients/rust_client
+	url = https://github.com/JustANull/pc3_client
