@@ -5,7 +5,7 @@ class Loader:
         self.problemsDictionary = {}
 
         #allows for logging of messages during execution
-        self.logger = logging.getLogger("loader")
+        self.logger = logging.getLogger(__name__)
 
         #verifies that root directory contains problems directory
         problemsExists = False
@@ -90,7 +90,7 @@ class Loader:
         return {problem: problemList}
 
 
-print __name__
+
 if __name__ == "__main__":
     print "Hello"
     logging.basicConfig(level=logging.DEBUG)
