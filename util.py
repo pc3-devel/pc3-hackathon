@@ -11,6 +11,8 @@ class Util:
         self.logger.debug("Data dir is: " + dataDir)
         self.problemSet = loader.Loader(dataDir).problemsDictionary
         self.evaluator = CodeRunner.Evaluate(dataDir)
+        self.langs = self.evaluator.getLangs()
+        self.logger.info("Supporting the following languages: " + str(self.langs))
         self.passwd = json.load(open(os.path.join(dataDir, "passwd.json")))
         self.scoreboard = scoring.ScoreBoard(dataDir)
 

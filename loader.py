@@ -9,12 +9,11 @@ class Loader:
 
         #verifies that root directory contains problems directory
         problemsExists = False
-        for dirs in os.listdir(directoryPath):
-            if (dirs == "problems"):
+        if "problems" in os.listdir(directoryPath):
             #builds initializing dictionary
-                self.createProblemsDict(os.path.join(directoryPath, "problems"))
-            else:
-                self.logger.error("No problems directory was found!")
+            self.createProblemsDict(os.path.join(directoryPath, "problems"))
+        else:
+            self.logger.error("No problems directory was found!")
 
 
     def createProblemsDict(self, path):

@@ -46,6 +46,9 @@ class Evaluate:
         #return a boolean of if the run was good or not
         return runStatus
 
+    def getLangs(self):
+        return self.support.getLangs()
+
 if __name__=="__main__":
     logging.basicConfig(level=logging.DEBUG)
     e = Evaluate("data")

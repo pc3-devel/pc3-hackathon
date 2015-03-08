@@ -9,7 +9,6 @@ dataDir = "data"
 app = Flask(__name__)
 app.debug=True
 app.secret_key = "sekret key"
-util = util.Util(dataDir)
 
 #return the version if this is the only thing queried
 @app.route("/")
@@ -38,11 +37,23 @@ def inform(problem):
     return util.getProblemDesc(problem)
 
 #accept submissions to be run on the problem set
-@app.route("/compete/<team>/<problem>/<lang>", methods=["POST"])
-def compete(team, problem, lang):
+@app.route("/compete/<problem>/<lang>", methods=["POST"])
+def compete(problem, lang):
+    problem = problem.lower()
+    lang = lang.lower()
+
     if "username" not in session:
         #bounce back for unauthenticated users
         return "You must be authenticated to do that!"
+    else:
+        team = session["username"]
+
+    if problem not in [s.lower() for s in util.problemSet]:
+        return "That is not a valid problem identifier!"
+
+    if lang not in [s.lower() for s in util.langs]:
+        return "That is not a valid language identifier!"
+
     if request.method == "POST":
         #if authenticated and POSTing, proceed
         file = request.files["teamCode"]
@@ -64,4 +75,5 @@ def scores():
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
+    util = util.Util(dataDir)
     app.run(host='0.0.0.0')
