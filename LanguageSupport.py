@@ -8,7 +8,7 @@ class LangSupport:
         for lang in self.languages:
             self.logger.info(self.languages[lang]["name"])
 
-    def _generateBaseName(self, teamFile):
+    def generateBaseName(self, teamFile):
         baseName =  teamFile.split(".")[0]
         self.logger.debug("Basename: " + baseName)
         return baseName
@@ -23,7 +23,7 @@ class LangSupport:
         return self.languages[lang]["compile"]
 
     def compile(self, lang, teamFile):
-        baseName = self._generateBaseName(teamFile)
+        baseName = self.generateBaseName(teamFile)
         cmd = self.getCompiler(lang).replace("{base}", baseName)
         self.logger.debug(cmd)
         return subprocess.call(cmd.split())

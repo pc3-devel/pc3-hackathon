@@ -56,3 +56,6 @@ target/
 
 # cask packages
 .cask/
+
+*.pyc
+*.py~
