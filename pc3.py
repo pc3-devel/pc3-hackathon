@@ -21,7 +21,8 @@ def compete(team, problem, lang):
     if request.method == "POST":
         file = request.files["teamCode"]
         filename = secure_filename(file.filename)
-        file.save(os.path.join(util.makeRun("data", team, problem), filename))
+        file.save(os.path.join(util.makeRun(team, problem), filename))
+        util.doRun(team, problem, lang, filename)
         return "Success!"
 
 if __name__ == "__main__":

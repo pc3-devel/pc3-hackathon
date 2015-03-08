@@ -22,11 +22,13 @@ class LangSupport:
     def getCompiler(self, lang):
         return self.languages[lang]["compile"]
 
-    def compile(self, lang, teamFile):
+    def compile(self, lang, teamFile, problemDir):
         baseName = self.generateBaseName(teamFile)
         cmd = self.getCompiler(lang).replace("{base}", baseName)
         self.logger.debug(cmd)
-        return subprocess.call(cmd.split())
+        proc = subprocess.Popen(cmd.split(), cwd=problemDir)
+        proc.wait()
+        return proc
 
     def getRunTime(self, lang):
         return self.languages[lang]["run"]
