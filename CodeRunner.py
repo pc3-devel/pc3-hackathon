@@ -1,4 +1,4 @@
-import logging, LanguageSupport, subprocess
+import logging, LanguageSupport, subprocess, shutil, os
 
 class Evaluate:
     def __init__(self, dataDir):
@@ -15,6 +15,11 @@ class Evaluate:
         return self._run(runTime, baseName, problemDir, problem)
 
     def _run(self, runTime, baseName, problemDir, problem):
+        #if it exists copy in the input file
+        if problem["in"] is not None:
+            self.logger.debug("Attempting to copy IO file")
+            shutil.copy(problem["in"], os.path.join(problemDir, "in.txt"))
+
         #actually execute the code
         cmd = runTime.replace("{base}", baseName).split()
         self.logger.debug("Attempting to run in " + problemDir)
