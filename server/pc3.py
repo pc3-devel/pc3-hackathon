@@ -34,8 +34,7 @@ def authenticate():
 #return the problem description
 @app.route("/inform/<problem>")
 def inform(problem):
-    desc = {"status":True, "message":util.getProblemDesc(problem)}
-    return json.dumps(desc)
+    return util.getProblemDesc(problem)
 
 #accept submissions to be run on the problem set
 @app.route("/compete/<problem>/<lang>", methods=["POST"])
