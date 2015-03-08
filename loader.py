@@ -44,6 +44,8 @@ class Loader:
         with open(defaultPath) as f:
             defaults = json.load(f)
 
+        f.close();
+
         return defaults
 
     #Defines each problem and its attributes within the dictionary
@@ -64,6 +66,8 @@ class Loader:
         with open(os.path.join(problemPath, "meta.json")) as meta:
             tmpDict = json.load(meta)
 
+        meta.close();
+
         for key in tmpDict.keys():
             if (tmpDict[key] == ""):
                 tmpDict[key] = meta_defaults[key]
@@ -73,10 +77,11 @@ class Loader:
         #Checks whether the input values exist and, if so, it adds it to the
         #problemList
         try:
-            problemList.append(os.path.join(problemPath, "in.txt"))
+            newPath = os.path.join(problemPath, "in.txt")
+            open(newPath)
 
         except:
-            self.logger.error("Unexpected Error: " + sys.exc_info()[0])
+            self.logger.warning("Invalid contents at in.txt file")
 
         #Add out.txt to problemList
         problemList.append(os.path.join(problemPath, "out.txt"))
