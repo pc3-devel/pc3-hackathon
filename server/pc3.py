@@ -25,16 +25,17 @@ def authenticate():
         if util.checkLogin(username, password):
             #login cleared, therefore add to the session table
             session["username"] = username
-            return "Success!"
+            return json.dumps({"status":True, "message":"Successfully Authenticated"})
         else:
-            return "Bad Login!"
+            return json.dumps({"status":False, "message":"Bad Login"})
     else:
-        return "Bad Request!"
+        return json.dumps({"status":False, "message":"Incorrect Request"})
 
 #return the problem description
 @app.route("/inform/<problem>")
 def inform(problem):
-    return util.getProblemDesc(problem)
+    desc = {"status":True, "message":util.getProblemDesc(problem)}
+    return json.dumps(desc)
 
 #accept submissions to be run on the problem set
 @app.route("/compete/<problem>/<lang>", methods=["POST"])
@@ -44,15 +45,15 @@ def compete(problem, lang):
 
     if "username" not in session:
         #bounce back for unauthenticated users
-        return "You must be authenticated to do that!"
+        return json.dumps({"status":False, "message":"You must be authenticated to do that!"})
     else:
         team = session["username"]
 
     if problem not in [s.lower() for s in util.problemSet]:
-        return "That is not a valid problem identifier!"
+        return json.dumps({"status":False, "message":"That is not a valid problem identifier!"})
 
     if lang not in [s.lower() for s in util.langs]:
-        return "That is not a valid language identifier!"
+        return json.dumps({"status":False, "message":"That is not a valid language identifier!"})
 
     if request.method == "POST":
         #if authenticated and POSTing, proceed
@@ -66,7 +67,7 @@ def compete(problem, lang):
 
         #run the code and grade it
         runStatus = util.doRun(team, problem, lang, filename)
-        return str(runStatus)
+        return json.dumps(runStatus)
 
 #return the scoring table
 @app.route("/scores")
