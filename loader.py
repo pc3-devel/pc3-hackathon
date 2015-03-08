@@ -54,8 +54,8 @@ class Loader:
         with open(os.path.join(problemPath, "meta.json")) as meta:
             tmpDict = json.load(meta)
 
-        for key in tmpDict.keys():
-            if (tmpDict[key] == ""):
+        for key in meta_defaults.keys():
+            if (tmpDict.get(key) == None):
                 tmpDict[key] = meta_defaults[key]
 
         self.problemsDictionary[problem]["meta"] = tmpDict
@@ -65,11 +65,12 @@ class Loader:
         try:
             newPath = os.path.join(problemPath, "in.txt")
             open(newPath)
+            self.problemsDictionary[problem]["in"] = newPath
         except:
             self.logger.warning("in.txt does not appear to exist.")
 
         #Add out.txt to problemList
-        self.problemsDictionary[problem]["in"] = os.path.join(problemPath, "out.txt")
+        self.problemsDictionary[problem]["out"] = os.path.join(problemPath, "out.txt")
 
         #Return problem to be stored in the dictionary
         return

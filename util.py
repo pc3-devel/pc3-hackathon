@@ -28,7 +28,7 @@ class Util:
 
     def doRun(self, team, problem, lang, teamFile):
         problemDir=os.path.join(self.getTeamDataPath(team), problem, str(self.getTeamRunNum(self.getTeamDataPath(team), problem)-1))
-        runStatus = self.evaluator.evaluate(lang, teamFile, problemDir)
+        runStatus = self.evaluator.evaluate(lang, teamFile, problemDir, self.problemSet[problem])
         if runStatus:
             points = self.problemSet[problem]["meta"]["points"]
             self.scoreboard.solve(team, problem, points) 
