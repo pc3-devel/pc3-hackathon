@@ -48,7 +48,7 @@ class Util:
             self.scoreboard.solve(team, problem, points) 
             return (runStatus, points)
         else:
-            return runStatus
+            return (runStatus, 0)
 
     #TODO make this even remotely secure
     def checkLogin(self, username, password):
