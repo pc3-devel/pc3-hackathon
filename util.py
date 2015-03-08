@@ -1,9 +1,11 @@
-import os, glob, CodeRunner, logging, json
+import os, glob, CodeRunner, logging, json, loader
 
 class Util:
     def __init__(self, dataDir):
         self.logger = logging.getLogger("util")
         self.logger.debug("Data dir is: " + dataDir)
+        self.problemSet = loader.Loader(dataDir).problemsDictionary
+        self.logger.debug(self.problemSet)
         self.evaluator = CodeRunner.Evaluate(dataDir)
         self.dataDir = dataDir
         self.passwd = json.load(open(os.path.join(dataDir, "passwd.json")))
@@ -30,7 +32,10 @@ class Util:
     #TODO make this even remotely secure
     def checkLogin(self, username, password):
         return self.passwd[username] == password
-        
+
+    def getProblemDesc(self, problem):
+        return self.problemSet[problem]["desc"]
+
 if __name__=="__main__":
     u = Util("data")
     print u.getTeamRunNum(getTeamDataPath("data", "team1"), "problem1")

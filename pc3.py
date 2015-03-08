@@ -28,9 +28,9 @@ def authenticate():
 
 @app.route("/inform/<problem>")
 def inform(problem):
-    pass
+    return util.getProblemDesc(problem)
 
-@app.route("/compete/<team>/<problem>/<lang>/", methods=["POST"])
+@app.route("/compete/<team>/<problem>/<lang>", methods=["POST"])
 def compete(team, problem, lang):
     if "username" not in session:
         return "You must be authenticated to do that!"
