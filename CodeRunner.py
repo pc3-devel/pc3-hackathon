@@ -6,18 +6,21 @@ class Evaluate:
         self.logger.info("Loading an evaluator")
         self.support = LanguageSupport.LangSupport(dataDir)
 
-    def evaluate(self, lang, teamFile, problemDir):
+    def evaluate(self, lang, teamFile, problemDir, problem):
         self.support.compile(lang, teamFile, problemDir)
         baseName = self.support.generateBaseName(teamFile)
         runTime = self.support.getRunTime(lang)
-        return self._run(runTime, baseName, problemDir)
+        return self._run(runTime, baseName, problemDir, problem)
 
-    def _run(self, runTime, baseName, problemDir):
+    def _run(self, runTime, baseName, problemDir, problem):
         cmd = runTime.replace("{base}", baseName).split()
         self.logger.debug("Attempting to run in " + problemDir)
         self.logger.debug("Attempting to run: " + str(cmd))
         output = subprocess.Popen(cmd, cwd=problemDir, stdout=subprocess.PIPE)
-        return self.compare(output.stdout.read(), "Hello World!", True)
+        with open(problem["out"]) as f:
+            outputText = f.read()
+        lazyMode = problem["meta"]["lazyMode"]
+        return self.compare(output.stdout.read(), outputText, lazyMode)
 
     def compare(self, run, good, lazy):
         if lazy:
