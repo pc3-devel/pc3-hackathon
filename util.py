@@ -1,4 +1,4 @@
-import os, glob, CodeRunner, logging
+import os, glob, CodeRunner, logging, json
 
 class Util:
     def __init__(self, dataDir):
@@ -6,6 +6,7 @@ class Util:
         self.logger.debug("Data dir is: " + dataDir)
         self.evaluator = CodeRunner.Evaluate(dataDir)
         self.dataDir = dataDir
+        self.passwd = json.load(open(os.path.join(dataDir, "passwd.json")))
 
     def getTeamRunNum(self, teamPath, problem):
         path = os.path.join(teamPath, problem, '*')
@@ -26,6 +27,10 @@ class Util:
         problemDir=os.path.join(self.getTeamDataPath(team), problem, str(self.getTeamRunNum(self.getTeamDataPath(team), problem)-1))
         return self.evaluator.evaluate(lang, teamFile, problemDir)
 
+    #TODO make this even remotely secure
+    def checkLogin(self, username, password):
+        return self.passwd[username] == password
+        
 if __name__=="__main__":
     u = Util("data")
     print u.getTeamRunNum(getTeamDataPath("data", "team1"), "problem1")
