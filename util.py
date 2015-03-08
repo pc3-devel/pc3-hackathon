@@ -24,7 +24,7 @@ class Util:
 
     def doRun(self, team, problem, lang, teamFile):
         problemDir=os.path.join(self.getTeamDataPath(team), problem, str(self.getTeamRunNum(self.getTeamDataPath(team), problem)-1))
-        self.evaluator.evaluate(lang, teamFile, problemDir)
+        return self.evaluator.evaluate(lang, teamFile, problemDir)
 
 if __name__=="__main__":
     u = Util("data")
