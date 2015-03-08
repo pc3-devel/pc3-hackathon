@@ -1,9 +1,12 @@
 from flask import Flask, request
 from werkzeug import secure_filename
-import LanguageSupport, CodeRunner, util, os
+import util, os, logging
+
+dataDir = "data"
 
 app = Flask(__name__)
 app.debug=True
+util = util.Util(dataDir)
 
 @app.route("/")
 def index():
@@ -22,4 +25,5 @@ def compete(team, problem, lang):
         return "Success!"
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
     app.run()
