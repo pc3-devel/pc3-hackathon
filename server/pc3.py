@@ -8,7 +8,7 @@ dataDir = "data"
 
 app = Flask(__name__)
 app.debug=True
-app.secret_key = "sekret key"
+app.secret_key = os.urandom(32)
 
 #return the version if this is the only thing queried
 @app.route("/")
