@@ -9,12 +9,16 @@ class Loader:
 
         #verifies that root directory contains problems directory
         problemsExists = False
-        if "problems" in os.listdir(directoryPath):
+        try:
+            if "problems" in os.listdir(directoryPath):
             #builds initializing dictionary
-            self.createProblemsDict(os.path.join(directoryPath, "problems"))
-        else:
-            self.logger.error("No problems directory was found!")
-
+                self.createProblemsDict(os.path.join(directoryPath, "problems"))
+            else:
+                self.logger.error("No problems directory was found!")
+                sys.exit(1)
+        except:
+            self.logger.critical("No configuration directory found, see README.md: ")
+            sys.exit(1)
 
     def createProblemsDict(self, path):
         meta_defaults = {}
