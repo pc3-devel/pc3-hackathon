@@ -1,6 +1,6 @@
 from flask import Flask, request, session
 from werkzeug import secure_filename
-import util, os, logging, random, json
+import util, flaskUtils, os, logging, random, json
 
 #master data directory, stores the configuration and runtime data
 #also stores the problem sets
@@ -38,15 +38,10 @@ def inform(problem):
 
 #accept submissions to be run on the problem set
 @app.route("/compete/<problem>/<lang>", methods=["POST"])
-def compete(problem, lang):
+@flaskUtils.requires_auth
+def compete(problem, lang, team="NOTEAM"):
     problem = problem.lower()
     lang = lang.lower()
-
-    if "username" not in session:
-        #bounce back for unauthenticated users
-        return json.dumps({"status":False, "message":"You must be authenticated to do that!"})
-    else:
-        team = session["username"]
 
     if problem not in [s.lower() for s in util.problemSet]:
         return json.dumps({"status":False, "message":"That is not a valid problem identifier!"})
