@@ -6,8 +6,8 @@ API design doc for PC3.
 /   -> version number of PC3
 /api
   /run
-    /<problem>/<language> -> status of run init
-        - initiates run to be scored
+    /<problem>/<language> -> whether the run was successful
+        - starts a score run
   /info
     /<problem> -> problem description
     /scores -> scoring table
