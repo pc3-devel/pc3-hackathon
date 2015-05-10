@@ -9,7 +9,7 @@ API design doc for PC3.
     /<problem>/<language> -> whether the run was successful
         - starts a score run
   /info
-    /<problem> -> problem description
+    /problems/<problem> -> problem description
     /scores -> scoring table
   /authenticate -> authentication results
       - authenticates username and password in request

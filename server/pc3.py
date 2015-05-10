@@ -32,7 +32,7 @@ def authenticate():
         return json.dumps({"status":False, "message":"Incorrect Request"})
 
 #return the problem description
-@app.route("/api/info/<problem>")
+@app.route("/api/info/problems/<problem>")
 def info_problem(problem):
     return json.dumps(util.getProblemDesc(problem))
 
