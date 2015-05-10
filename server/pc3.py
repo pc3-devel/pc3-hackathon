@@ -16,7 +16,7 @@ def index():
     return "pc3 v1.0.0"
 
 #simple file based auth, insecure but workable
-@app.route("/authenticate", methods=["POST"])
+@app.route("/api/authenticate", methods=["POST"])
 def authenticate():
     #only work for requests of the correct type
     if request.method == "POST":
@@ -32,14 +32,14 @@ def authenticate():
         return json.dumps({"status":False, "message":"Incorrect Request"})
 
 #return the problem description
-@app.route("/inform/<problem>")
-def inform(problem):
+@app.route("/api/info/<problem>")
+def info_problem(problem):
     return json.dumps(util.getProblemDesc(problem))
 
 #accept submissions to be run on the problem set
-@app.route("/compete/<problem>/<lang>", methods=["POST"])
+@app.route("/api/run/<problem>/<lang>", methods=["POST"])
 @flaskUtils.requires_auth
-def compete(problem, lang, team="NOTEAM"):
+def run(problem, lang, team="NOTEAM"):
     problem = problem.lower()
     lang = lang.lower()
 
@@ -64,8 +64,8 @@ def compete(problem, lang, team="NOTEAM"):
         return json.dumps(runStatus)
 
 #return the scoring table
-@app.route("/scores")
-def scores():
+@app.route("/api/info/scores")
+def info_scores():
     return json.dumps(util.scoreboard.getRanks())
 
 if __name__ == "__main__":
