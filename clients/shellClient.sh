@@ -10,7 +10,7 @@ echo "Input your team password: "
 
 PASSWORD="password"
 
-curl -c /tmp/cookie.txt -d "username=$2&password="$PASSWORD $1:5000/authenticate
+curl -c /tmp/cookie.txt -d "username=$2&password="$PASSWORD $1:5000/api/authenticate
 echo
-curl -b /tmp/cookie.txt -F teamCode=@$5 $1:5000/compete/$3/$4
+curl -b /tmp/cookie.txt -F teamCode=@$5 $1:5000/api/run/$3/$4
 echo
