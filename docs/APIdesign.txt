@@ -1,0 +1,20 @@
+API Overview
+Initiated 10-05-2015
+
+API design doc for PC3.
+
+/   -> version number of PC3
+/api
+  /run
+    /<problem>/<language> -> status of run init
+        - initiates run to be scored
+  /info
+    /<problem> -> problem description
+    /scores -> scoring table
+  /authenticate -> authentication results
+      - authenticates username and password in request
+  /supervise
+    /override/<team>/<problem> -> verification of score override
+        - manually overrides scoring for a problem
+    /kill/<team>/<problem>/<run> -> verification that run is dead
+        - kills an in-process scoring run
