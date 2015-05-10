@@ -2,13 +2,13 @@ import logging, LanguageSupport, subprocess, shutil, os
 
 class Evaluate:
     def __init__(self, dataDir):
-        #init some internal instances of stuff
+        """init some internal instances of stuff"""
         self.logger = logging.getLogger("Evaluator")
         self.logger.info("Loading an evaluator")
         self.support = LanguageSupport.LangSupport(dataDir)
 
     def evaluate(self, lang, teamFile, problemDir, problem):
-        #top level function to provide the evaluation steps
+        """top level function to provide the evaluation steps"""
         self.support.compile(lang, teamFile, problemDir)
         baseName = self.support.generateBaseName(teamFile)
         runTime = self.support.getRunTime(lang)
@@ -35,7 +35,7 @@ class Evaluate:
         return self.compare(output.stdout.read(), outputText, lazyMode)
 
     def compare(self, run, good, lazy):
-        #grade the run, lazy mode is lenient with whitespace
+        """grade the run, lazy mode is lenient with whitespace"""
         if lazy:
             good = good.strip()
             run = run.strip()

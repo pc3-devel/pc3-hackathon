@@ -10,14 +10,15 @@ app = Flask(__name__)
 app.debug=True
 app.secret_key = os.urandom(32)
 
-#return the version if this is the only thing queried
+
 @app.route("/")
 def index():
+    """return the version if this is the only thing queried"""
     return "pc3 v1.0.0"
 
-#simple file based auth, insecure but workable
 @app.route("/api/authenticate", methods=["POST"])
 def authenticate():
+    """simple file based auth, insecure but workable"""
     #only work for requests of the correct type
     if request.method == "POST":
         username = request.form["username"]
@@ -31,15 +32,15 @@ def authenticate():
     else:
         return json.dumps({"status":False, "message":"Incorrect Request"})
 
-#return the problem description
 @app.route("/api/info/problems/<problem>")
 def info_problem(problem):
+    """return the problem description"""
     return json.dumps(util.getProblemDesc(problem))
 
-#accept submissions to be run on the problem set
 @app.route("/api/run/<problem>/<lang>", methods=["POST"])
 @flaskUtils.requires_auth
 def run(problem, lang, team="NOTEAM"):
+    """accept submissions to be run on the problem set"""
     problem = problem.lower()
     lang = lang.lower()
 
@@ -63,9 +64,9 @@ def run(problem, lang, team="NOTEAM"):
         runStatus, points = util.doRun(team, problem, lang, filename)
         return json.dumps({"status":runStatus, "message":"Problem Solved: %s\nPoints Received: %i"%(runStatus, points)})
 
-#return the scoring table
 @app.route("/api/info/scores")
 def info_scores():
+    """return the scoring table"""
     return json.dumps(util.scoreboard.getRanks())
 
 if __name__ == "__main__":

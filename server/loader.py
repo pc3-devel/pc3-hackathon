@@ -32,16 +32,16 @@ class Loader:
             if (os.path.isdir(os.path.join(path,problem)) == True):
                 self.probStats(path, problem, self.meta_defaults)
 
-    #Establishes meta default values by reading in from the meta-defaults.json
     def metaDefaultsIn(self, defaultPath):
+        """Establishes meta default values by reading in from the meta-defaults.json"""
         defaults = {}
         
         with open(defaultPath) as f:
             defaults = json.load(f)
         return defaults
 
-    #Defines each problem and its attributes within the dictionary
     def probStats(self, path, problem, meta_defaults):
+        """Defines each problem and its attributes within the dictionary"""
         problemPath = os.path.join(path, problem)
 
         self.logger.info("Loading " + problem);
@@ -77,8 +77,6 @@ class Loader:
 
         #Return problem to be stored in the dictionary
         return
-
-
 
 if __name__ == "__main__":
     print "Hello"

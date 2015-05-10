@@ -5,7 +5,7 @@ import os, glob, CodeRunner, logging, json, loader, scoring
 
 class Util:
     def __init__(self, dataDir):
-        #init the internal instances of stuff
+        """init the internal instances of stuff"""
         self.dataDir = dataDir
         self.logger = logging.getLogger("util")
         self.logger.debug("Data dir is: " + dataDir)
@@ -17,18 +17,18 @@ class Util:
         self.scoreboard = scoring.ScoreBoard(dataDir)
 
     def getTeamRunNum(self, teamPath, problem):
-        #figure out what run number this one is
+        """figure out what run number this one is"""
         path = os.path.join(teamPath, problem, '*')
         runs = glob.glob(path)
         #plus one because we want to create the current run directory
         return len(runs)+1
 
     def getTeamDataPath(self, team):
-        #convenience function to build the team path
+        """convenience function to build the team path"""
         return os.path.join(self.dataDir, "teamData", team)
 
     def makeRun(self, team, problem):
-        #generate the paths, numbers, and run context
+        """generate the paths, numbers, and run context"""
         teamPath = self.getTeamDataPath(team)
         runNum = self.getTeamRunNum(teamPath, problem)
         runPath = os.path.join(teamPath, problem, str(runNum))
@@ -36,7 +36,7 @@ class Util:
         return runPath
 
     def doRun(self, team, problem, lang, teamFile):
-        #actually run the code
+        """actually run the code"""
         problemDir=os.path.join(self.getTeamDataPath(team), problem, str(self.getTeamRunNum(self.getTeamDataPath(team), problem)-1))
 
         #evaluate the status of the run
@@ -55,7 +55,7 @@ class Util:
         return self.passwd[username] == password
 
     def getProblemDesc(self, problem):
-        #convenience function to get the description from the problem
+        """convenience function to get the description from the problem"""
         return self.problemSet[problem]["desc"]
 
 if __name__=="__main__":

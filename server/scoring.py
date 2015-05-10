@@ -14,13 +14,13 @@ class ScoreBoard:
                 self.scores = {}
 
     def sync(self):
-        #sync the copy in RAM back to the disk as needed
+        """sync the copy in RAM back to the disk as needed"""
         self.logger.debug("Syncing database")
         with open(os.path.join(self.dataDir, "scores.json"), 'w') as f:
             json.dump(self.scores, f, sort_keys=True, indent=2, separators=(',',':'))
 
     def solve(self, team, problem, points):
-        #allow for the solving of problems
+        """allow for the solving of problems"""
 
         #build the key path if it does not exist
         if not team in self.scores:
@@ -41,18 +41,18 @@ class ScoreBoard:
             return False
 
     def hasSolved(self, team, problem):
-        #check if they solve key is set for the problem
+        """check if they solve key is set for the problem"""
         try:
             return self.scores[team][problem]
         except KeyError:
             return False
 
     def getScore(self, team):
-        #get the score from the server for the client
+        """get the score from the server for the client"""
         return self.scores[team]["score"]
 
     def getRanks(self):
-        #return a ranked list of teams
+        """return a ranked list of teams"""
         rankedTeams = []
         for team in self.scores.keys():
             rankedTeams.append((team, self.scores[team]["score"]))
