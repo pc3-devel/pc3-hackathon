@@ -60,8 +60,8 @@ def run(problem, lang, team="NOTEAM"):
         file.save(os.path.join(util.makeRun(team, problem), filename))
 
         #run the code and grade it
-        runStatus = util.doRun(team, problem, lang, filename)
-        return json.dumps(runStatus)
+        runStatus, points = util.doRun(team, problem, lang, filename)
+        return json.dumps({"status":runStatus, "message":"Problem Solved: %s\nPoints Received: %i"%(runStatus, points)})
 
 #return the scoring table
 @app.route("/api/info/scores")
