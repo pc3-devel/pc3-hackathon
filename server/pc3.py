@@ -1,6 +1,6 @@
 from flask import Flask, request, session
 from werkzeug import secure_filename
-import util, flaskUtils, os, logging, random, json
+import util, flaskUtils, os, logging, random, json, sys
 
 #master data directory, stores the configuration and runtime data
 #also stores the problem sets
@@ -71,5 +71,7 @@ def info_scores():
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
+    if len(sys.argv) == 2 and os.path.isdir(sys.argv[1]): # overriding data directory
+        dataDir = sys.argv[1]
     util = util.Util(dataDir)
     app.run(host='0.0.0.0')

@@ -40,15 +40,17 @@ class Util:
         problemDir=os.path.join(self.getTeamDataPath(team), problem, str(self.getTeamRunNum(self.getTeamDataPath(team), problem)-1))
 
         #evaluate the status of the run
-        runStatus = self.evaluator.evaluate(lang, teamFile, problemDir, self.problemSet[problem])
+        runStatus, teamOutput, goodOutput, lazyOn = self.evaluator.evaluate(lang, teamFile, problemDir, self.problemSet[problem])
 
         #check status and manage scoreboard
         if runStatus:
             points = self.problemSet[problem]["meta"]["points"]
             self.scoreboard.solve(team, problem, points) 
-            return (runStatus, points)
         else:
-            return (runStatus, 0)
+            points = 0
+        with open(os.path.join(problemDir, "result.json"), "w") as f:
+            json.dump({"solved":runStatus, "teamOutput":teamOutput, "expectedOutput":goodOutput, "lazyMode":lazyOn}, f)
+        return (runStatus, points)
 
     #TODO make this even remotely secure
     def checkLogin(self, username, password):

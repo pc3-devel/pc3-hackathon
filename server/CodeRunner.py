@@ -40,11 +40,12 @@ class Evaluate:
             good = good.strip()
             run = run.strip()
         runStatus = (run == good)
+        
         self.logger.debug("Expected output: " + good)
         self.logger.debug("Recieved output: " + run)
         self.logger.debug("The run is: " + str(runStatus))
         #return a boolean of if the run was good or not
-        return runStatus
+        return runStatus, run, good, lazy
 
     def getLangs(self):
         return self.support.getLangs()

@@ -22,9 +22,8 @@ class Loader:
 
     def createProblemsDict(self, path):
         meta_defaults = {}
-        defaultPath = path
 
-        self.meta_defaults = self.metaDefaultsIn(os.path.join(defaultPath, "meta_defaults.json"))
+        self.meta_defaults = self.metaDefaultsIn(os.path.join(path, "meta_defaults.json"))
         
         #finds subdirectories of problems dir and makes those the 
         #dictionary keys through passing them to the probStats function
