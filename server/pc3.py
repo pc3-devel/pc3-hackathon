@@ -2,9 +2,9 @@ from flask import Flask, request, session
 from werkzeug import secure_filename
 import util, flaskUtils, os, logging, random, json, sys
 
-#master data directory, stores the configuration and runtime data
+#default data directory, stores the configuration and runtime data
 #also stores the problem sets
-dataDir = "data"
+dataDir = os.path.join("pc3-data", "defaultData")
 
 app = Flask(__name__)
 app.debug=True

@@ -1,3 +1,6 @@
 [submodule "clients/rust_client"]
 	path = clients/rust_client
 	url = https://github.com/JustANull/pc3_client
+[submodule "server/pc3-data"]
+	path = server/pc3-data
+	url = https://github.com/pc3-devel/pc3-data.git
