@@ -68,30 +68,30 @@ def run(problem, lang, team="NOTEAM"):
 def info_scores():
     """return the scoring table"""
     return json.dumps(util.scoreboard.getRanks())
-    
+
 @app.route("/api/supervise/override/<team>/<problem>", methods=["POST"])
-@flaskutils.requires_auth # Need to implement a decorator for requiring supervisor perms
+@flaskUtils.requires_auth # Need to implement a decorator for requiring supervisor perms
 def supervise_override(team, problem):
     """manually override a team's score for a problem."""
-    
+
     # Verify the problem id.
     problem = problem.lower()
     if problem not in [s.lower() for s in util.problemSet]:
         return json.dumps({"status": False, "reason": "bad problem ID"}), 400
-    
+
     if request.method == "POST":
         return json.dumps({"status": False, "reason": "manual override not yet implemented"}), 501
-        
+
 @app.route("/api/supervise/kill/<team>/<problem>/<run>")
-@flaskutils.requires_auth # See note on supervise_override
+@flaskUtils.requires_auth # See note on supervise_override
 def supervise_kill(team, problem, run):
     """kill a malfunctioning run"""
     # I have no idea how this should be implemented.
     return json.dumps({"status": False, "reason": "run management not yet implemented"}), 501
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level = logging.DEBUG)
     if len(sys.argv) == 2 and os.path.isdir(sys.argv[1]): # overriding data directory
         dataDir = sys.argv[1]
     util = util.Util(dataDir)
-    app.run(host='0.0.0.0')
+    app.run(host = "0.0.0.0")
