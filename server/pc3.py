@@ -28,9 +28,9 @@ def authenticate():
             session["username"] = username
             return json.dumps({"status": True})
         else:
-            return json.dumps({"status": False}), 401
+            return json.dumps({"status": False, reason: "bad login"}), 401
     else:
-        return json.dumps({"status": False}), 405
+        return json.dumps({"status": False, reason: "bad method"}), 405
 
 @app.route("/api/info/problems/<problem>")
 def info_problem(problem):
