@@ -26,11 +26,11 @@ def authenticate():
         if util.checkLogin(username, password):
             #login cleared, therefore add to the session table
             session["username"] = username
-            return json.dumps({"status":True, "message":"Successfully Authenticated"})
+            return json.dumps({"status": True})
         else:
-            return json.dumps({"status":False, "message":"Bad Login"})
+            return json.dumps({"status": False}), 401
     else:
-        return json.dumps({"status":False, "message":"Incorrect Request"})
+        return json.dumps({"status": False}), 405
 
 @app.route("/api/info/problems/<problem>")
 def info_problem(problem):
@@ -45,10 +45,10 @@ def run(problem, lang, team="NOTEAM"):
     lang = lang.lower()
 
     if problem not in [s.lower() for s in util.problemSet]:
-        return json.dumps({"status":False, "message":"That is not a valid problem identifier!"})
+        return json.dumps({"status": False, "reason": "bad problem ID"}), 400
 
     if lang not in [s.lower() for s in util.langs]:
-        return json.dumps({"status":False, "message":"That is not a valid language identifier!"})
+        return json.dumps({"status": False, "reason": "bad language ID"}), 400
 
     if request.method == "POST":
         #if authenticated and POSTing, proceed
@@ -61,8 +61,8 @@ def run(problem, lang, team="NOTEAM"):
         file.save(os.path.join(util.makeRun(team, problem), filename))
 
         #run the code and grade it
-        runStatus, points = util.doRun(team, problem, lang, filename)
-        return json.dumps({"status":runStatus, "message":"Problem Solved: %s\nPoints Received: %i"%(runStatus, points)})
+        runCorrect, points = util.doRun(team, problem, lang, filename)
+        return json.dumps({"status": True, "correct": runCorrect, "message": "Problem Solved: %s\nPoints Received: %i" % (runStatus, points)})
 
 @app.route("/api/info/scores")
 def info_scores():
@@ -77,17 +77,17 @@ def supervise_override(team, problem):
     # Verify the problem id.
     problem = problem.lower()
     if problem not in [s.lower() for s in util.problemSet]:
-        return json.dumps({"status":False, "message":"That is not a valid problem identifier!"})
+        return json.dumps({"status": False, "reason": "bad problem ID"}), 400
     
     if request.method == "POST":
-        return json.dumps({"status":False, "message":"Manual overrides not implemented yet"})
+        return json.dumps({"status": False, "reason": "manual override not yet implemented"}), 501
         
 @app.route("/api/supervise/kill/<team>/<problem>/<run>")
 @flaskutils.requires_auth # See note on supervise_override
 def supervise_kill(team, problem, run):
     """kill a malfunctioning run"""
     # I have no idea how this should be implemented.
-    return json.dumps({"status":False, "message":"Action is not implemented yet."})
+    return json.dumps({"status": False, "reason": "run management not yet implemented"}), 501
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
